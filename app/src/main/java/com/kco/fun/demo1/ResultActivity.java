@@ -1,4 +1,4 @@
-package com.kco.fun;
+package com.kco.fun.demo1;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 
 import com.jph.takephoto.model.TImage;
+import com.kco.fun.R;
 
 import java.io.File;
 import java.util.ArrayList;

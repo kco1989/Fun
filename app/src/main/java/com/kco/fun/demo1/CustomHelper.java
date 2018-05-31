@@ -1,4 +1,4 @@
-package com.kco.fun;
+package com.kco.fun.demo1;
 
 import android.net.Uri;
 import android.os.Environment;
@@ -11,6 +11,7 @@ import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.LubanOptions;
 import com.jph.takephoto.model.TakePhotoOptions;
+import com.kco.fun.R;
 
 import java.io.File;
 

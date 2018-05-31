@@ -1,7 +1,6 @@
-package com.kco.fun;
+package com.kco.fun.demo1;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,11 +8,12 @@ import android.view.View;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
+import com.kco.fun.R;
 
 import java.util.ArrayList;
 
 public class SimpleActivity extends TakePhotoActivity {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "SimpleActivity";
     private CustomHelper customHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

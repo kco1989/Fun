@@ -6,12 +6,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        tools:context="com.kco.fun.SimpleActivity">
+        tools:context="com.kco.fun.demo1.SimpleActivity">
 
     <Button android:id="@+id/start_simple"
             android:text="获取图片测试"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+    <Button android:id="@+id/start_photo"
+            android:text="获取图片测试2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>
