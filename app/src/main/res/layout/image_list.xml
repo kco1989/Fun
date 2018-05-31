@@ -5,13 +5,11 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         tools:context="com.kco.fun.demo1.SimpleActivity">
 
-    <TextView
-            android:id="@+id/filterName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dip" />
+    <ImageView
+            android:id="@+id/image_item"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
 </LinearLayout>

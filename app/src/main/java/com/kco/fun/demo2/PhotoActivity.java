@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import butterknife.BindView;
@@ -17,6 +18,7 @@ import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.*;
 import com.kco.fun.R;
+import com.kco.fun.demo2.adapter.FilterBean;
 import com.kco.fun.demo2.adapter.FilterListAdapter;
 
 import java.io.File;
@@ -39,6 +41,13 @@ public class PhotoActivity extends TakePhotoActivity {
         setContentView(R.layout.phtoto_layout);
         ButterKnife.bind(this);
         filterList.setAdapter(new FilterListAdapter(this));
+        filterList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FilterBean filterBean = (FilterBean) view.getTag();
+
+            }
+        });
     }
 
     @OnClick(R.id.btnSumbit)
