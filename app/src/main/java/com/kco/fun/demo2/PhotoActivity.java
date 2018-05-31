@@ -1,22 +1,25 @@
 package com.kco.fun.demo2;
 
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ListView;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.bumptech.glide.Glide;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.*;
 import com.kco.fun.R;
-import com.kco.fun.demo1.ResultActivity;
+import com.kco.fun.demo2.adapter.FilterListAdapter;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by 666666 on 2018/5/31.
@@ -24,22 +27,29 @@ import java.util.ArrayList;
 public class PhotoActivity extends TakePhotoActivity {
     private static final String TAG = "PhotoActivity";
     private PhotoConfig photoConfig = new PhotoConfig();
+    @BindView(R.id.imageView)
+    public ImageView imageView;
+    @BindView(R.id.filterList)
+    public ListView filterList;
+    @BindView(R.id.imageList)
+    public ListView imageList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.phtoto_layout);
         ButterKnife.bind(this);
+        filterList.setAdapter(new FilterListAdapter(this));
     }
 
+    @OnClick(R.id.btnSumbit)
+    public void sumbit(View view){
+
+    }
 
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
-        Log.d(TAG, "single -> " + result.getImage().getOriginalPath());
-        for (TImage image : result.getImages()){
-            Log.d(TAG, "bat ->" + image.getOriginalPath());
-        }
-        showImg(result.getImages());
+        showImg(result.getImage());
     }
 
     @Override
@@ -52,10 +62,9 @@ public class PhotoActivity extends TakePhotoActivity {
         super.takeCancel();
     }
 
-    private void showImg(ArrayList<TImage> images) {
-        Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("images", images);
-        startActivity(intent);
+    private void showImg(TImage image) {
+        Log.d(TAG, "showImg --> " + image.getOriginalPath());
+        Glide.with(this).load(new File(image.getOriginalPath())).into(imageView);
     }
 
 
