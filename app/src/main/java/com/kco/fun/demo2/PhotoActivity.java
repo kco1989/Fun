@@ -1,14 +1,13 @@
 package com.kco.fun.demo2;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -18,8 +17,8 @@ import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.*;
 import com.kco.fun.R;
-import com.kco.fun.demo2.adapter.FilterBean;
 import com.kco.fun.demo2.adapter.FilterListAdapter;
+import com.kco.fun.demo2.adapter.ImageListAdapter;
 
 import java.io.File;
 
@@ -32,22 +31,29 @@ public class PhotoActivity extends TakePhotoActivity {
     @BindView(R.id.imageView)
     public ImageView imageView;
     @BindView(R.id.filterList)
-    public ListView filterList;
+    public RecyclerView filterList;
     @BindView(R.id.imageList)
-    public ListView imageList;
+    public RecyclerView imageList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.phtoto_layout);
         ButterKnife.bind(this);
-        filterList.setAdapter(new FilterListAdapter(this));
-        filterList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FilterBean filterBean = (FilterBean) view.getTag();
 
-            }
-        });
+        ImageListAdapter imageListAdapter = new ImageListAdapter(this);
+        FilterListAdapter filterListAdapter = new FilterListAdapter(this, imageListAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        filterList.setLayoutManager(layoutManager);
+        filterList.setAdapter(filterListAdapter);
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
+        layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        imageList.setLayoutManager(layoutManager1);
+        imageList.setAdapter(imageListAdapter);
+        Log.d(TAG, "onCreate");
+
     }
 
     @OnClick(R.id.btnSumbit)

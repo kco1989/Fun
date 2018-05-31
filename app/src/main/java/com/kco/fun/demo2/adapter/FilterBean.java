@@ -9,11 +9,11 @@ import java.util.List;
 public class FilterBean {
     private String type;
     private String name;
-    private int[] images;
+    private String[] images;
 
     public static List<FilterBean> getList() {
         List<FilterBean> list = new ArrayList<>();
-        list.add(new FilterBean("ptuFacesticker", "大头贴", ImageDrawable.ptu_facesticker));
+//        list.add(new FilterBean("ptuFacesticker", "大头贴", ImageDrawable.ptu_facesticker));
         list.add(new FilterBean("ptuFacecosmetic", "人脸美妆", ImageDrawable.ptu_facecosmetic));
         list.add(new FilterBean("ptuImgfilter", "人物滤镜", ImageDrawable.ptu_imgfilter));
         list.add(new FilterBean("visionImgfilter", "风景滤镜", ImageDrawable.vision_imgfilter));
@@ -21,7 +21,7 @@ public class FilterBean {
         return list;
     }
 
-    public FilterBean(String type, String name, int[] images) {
+    public FilterBean(String type, String name, String[] images) {
         this.type = type;
         this.name = name;
         this.images = images;
@@ -43,9 +43,9 @@ public class FilterBean {
         this.name = name;
     }
 
-    public List<Integer> getImages() {
-        List<Integer> result = new ArrayList<>();
-        for (int image : images){
+    public List<String> getImages() {
+        List<String> result = new ArrayList<>();
+        for (String image : images){
             result.add(image);
         }
         return result;
