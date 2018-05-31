@@ -13,7 +13,7 @@ public class FilterBean {
 
     public static List<FilterBean> getList() {
         List<FilterBean> list = new ArrayList<>();
-//        list.add(new FilterBean("ptuFacesticker", "大头贴", ImageDrawable.ptu_facesticker));
+        list.add(new FilterBean("ptuFacesticker", "大头贴", ImageDrawable.ptu_facesticker));
         list.add(new FilterBean("ptuFacecosmetic", "人脸美妆", ImageDrawable.ptu_facecosmetic));
         list.add(new FilterBean("ptuImgfilter", "人物滤镜", ImageDrawable.ptu_imgfilter));
         list.add(new FilterBean("visionImgfilter", "风景滤镜", ImageDrawable.vision_imgfilter));

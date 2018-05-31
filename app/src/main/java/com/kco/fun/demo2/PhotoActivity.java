@@ -20,7 +20,11 @@ import com.kco.fun.R;
 import com.kco.fun.demo2.adapter.FilterListAdapter;
 import com.kco.fun.demo2.adapter.ImageListAdapter;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by 666666 on 2018/5/31.
@@ -34,13 +38,16 @@ public class PhotoActivity extends TakePhotoActivity {
     public RecyclerView filterList;
     @BindView(R.id.imageList)
     public RecyclerView imageList;
+
+    public File imageFile;
+    ImageListAdapter imageListAdapter ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.phtoto_layout);
         ButterKnife.bind(this);
 
-        ImageListAdapter imageListAdapter = new ImageListAdapter(this);
+        imageListAdapter = new ImageListAdapter(this);
         FilterListAdapter filterListAdapter = new FilterListAdapter(this, imageListAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -53,11 +60,24 @@ public class PhotoActivity extends TakePhotoActivity {
         imageList.setLayoutManager(layoutManager1);
         imageList.setAdapter(imageListAdapter);
         Log.d(TAG, "onCreate");
-
     }
 
     @OnClick(R.id.btnSumbit)
-    public void sumbit(View view){
+    public void sumbit(View view) {
+        File lastFile = imageListAdapter.lastFile;
+        if (lastFile == null || !lastFile.exists()){
+            return;
+        }
+        String[] split = lastFile.getName().split("\\.");
+        File externalFilesDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String fileName = UUID.randomUUID().toString() + "." + split[split.length - 1];
+        File newFile = new File(externalFilesDir, fileName);
+        try {
+            FileUtils.copyFile(lastFile, newFile);
+            imageFile = newFile;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -79,7 +99,8 @@ public class PhotoActivity extends TakePhotoActivity {
 
     private void showImg(TImage image) {
         Log.d(TAG, "showImg --> " + image.getOriginalPath());
-        Glide.with(this).load(new File(image.getOriginalPath())).into(imageView);
+        this.imageFile = new File(image.getOriginalPath());
+        Glide.with(this).load(this.imageFile).into(imageView);
     }
 
 

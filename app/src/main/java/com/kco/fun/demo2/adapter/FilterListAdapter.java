@@ -33,13 +33,16 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListViewHolder
 
     @Override
     public void onBindViewHolder(FilterListViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder");
         final FilterBean filterBean = filterBeanList.get(position);
-        holder.textView.setText(filterBean.getName());
+        holder.filterBtn.setText(filterBean.getName());
         Log.d(TAG, filterBean.getName());
-        holder.textView.setOnClickListener(new View.OnClickListener() {
+        holder.filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageListAdapter.setImageList(filterBean.getImages());
+                Log.d(TAG, "setOnClickListener -> " + filterBean.getName());
+                imageListAdapter.setImageList(filterBean.getImages(), filterBean.getType());
+
             }
         });
     }
