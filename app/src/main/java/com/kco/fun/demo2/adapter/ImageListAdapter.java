@@ -19,8 +19,6 @@ import com.kco.fun.tools.bean.ImageBean;
 import com.kco.fun.tools.bean.ResultBean;
 
 import java.io.File;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import io.reactivex.functions.Consumer;
 
@@ -30,7 +28,6 @@ import io.reactivex.functions.Consumer;
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListViewHolder> {
 
     private static final String TAG = "ImageListAdapter";
-    private static final ExecutorService pool = Executors.newCachedThreadPool();
     private PhotoBeautifyEnum photoBeautifyEnum;
     Context context;
     public File lastFile;
