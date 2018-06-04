@@ -54,7 +54,7 @@ public class PhotoActivity extends TakePhotoActivity {
         FilterListAdapter filterListAdapter = new FilterListAdapter(this, imageListAdapter);
 
         LinearLayoutManager filterListLayoutManager = new LinearLayoutManager(this);
-        filterListLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        filterListLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         filterList.setLayoutManager(filterListLayoutManager);
         filterList.setAdapter(filterListAdapter);
 
@@ -62,6 +62,9 @@ public class PhotoActivity extends TakePhotoActivity {
         imageListLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         imageList.setLayoutManager(imageListLayoutManager);
         imageList.setAdapter(imageListAdapter);
+
+        filterList.setVisibility(View.INVISIBLE);
+        imageList.setVisibility(View.INVISIBLE);
         Log.d(TAG, "onCreate");
     }
 
@@ -87,6 +90,9 @@ public class PhotoActivity extends TakePhotoActivity {
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
+        filterList.setVisibility(View.VISIBLE);
+        imageList.setVisibility(View.VISIBLE);
+        Log.d(TAG, result.getImage().getOriginalPath());
         showImg(result.getImage());
     }
 
