@@ -12,24 +12,17 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.kco.fun.R;
 import com.kco.fun.demo2.PhotoActivity;
+import com.kco.fun.tools.PhotoBeautifyEnum;
+import com.kco.fun.tools.RxTencentAiTools;
 import com.kco.fun.tools.TencentAiTools;
 import com.kco.fun.tools.bean.ImageBean;
 import com.kco.fun.tools.bean.ResultBean;
 
 import java.io.File;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import rx.Observable;
-import rx.Scheduler;
-import rx.Single;
-import rx.SingleSubscriber;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by 666666 on 2018/5/31.
@@ -38,8 +31,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListViewHolder> 
 
     private static final String TAG = "ImageListAdapter";
     private static final ExecutorService pool = Executors.newCachedThreadPool();
-    public List<String> imageList;
-    public String type;
+    private PhotoBeautifyEnum photoBeautifyEnum;
     Context context;
     public File lastFile;
 
@@ -47,15 +39,15 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListViewHolder> 
         this.context = context;
     }
 
-    public void setImageList(List<String> imageList, String type) {
-        this.imageList = imageList;
-        this.type = type;
+    public PhotoBeautifyEnum getPhotoBeautifyEnum() {
+        return photoBeautifyEnum;
+    }
+
+    public void setPhotoBeautifyEnum(PhotoBeautifyEnum photoBeautifyEnum) {
+        this.photoBeautifyEnum = photoBeautifyEnum;
         notifyDataSetChanged();
     }
 
-    public List<String> getImageList() {
-        return imageList;
-    }
 
     @Override
     public ImageListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,10 +56,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListViewHolder> 
 
     @Override
     public void onBindViewHolder(ImageListViewHolder holder, final int position) {
-        if (imageList == null) {
+        if (photoBeautifyEnum == null) {
             return;
         }
-        String image = imageList.get(position);
+        String image = this.photoBeautifyEnum.getImageUrlList().get(position);
         Glide.with(context).load(image).into(holder.imageView);
         Log.d(TAG, image);
         final PhotoActivity photoActivity = (PhotoActivity) context;
@@ -79,7 +71,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListViewHolder> 
             @Override
             public void onClick(View v) {
 
-                String fileName = type + "-" + position + "-" + photoActivity.imageFile.getName();
+                String fileName = photoBeautifyEnum.name() + "-" + position + "-" + photoActivity.imageFile.getName();
                 File externalFilesDir = photoActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                 if (!externalFilesDir.exists()) {
                     externalFilesDir.mkdirs();
@@ -90,36 +82,9 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListViewHolder> 
                     lastFile = file;
                     return;
                 }
-                Observable.create(new Observable.OnSubscribe<ResultBean<ImageBean>>() {
+                RxTencentAiTools.beautify(photoBeautifyEnum, photoActivity.imageFile, position + 1, new Consumer<ResultBean<ImageBean>>() {
                     @Override
-                    public void call(Subscriber<? super ResultBean<ImageBean>> subscriber) {
-                        ResultBean<ImageBean> imageBeanResultBean = null;
-                        switch (type) {
-                            case "ptuFacesticker":
-                                imageBeanResultBean = TencentAiTools.ptuFacesticker(photoActivity.imageFile, position + 1);
-                                break;
-                            case "ptuFacecosmetic":
-                                imageBeanResultBean = TencentAiTools.ptuFacecosmetic(photoActivity.imageFile, position + 1);
-                                break;
-                            case "ptuImgfilter":
-                                imageBeanResultBean = TencentAiTools.ptuImgfilter(photoActivity.imageFile, position + 1);
-                                break;
-                            case "visionImgfilter":
-                                imageBeanResultBean = TencentAiTools.visionImgfilter(photoActivity.imageFile, position + 1);
-                                break;
-                            case "ptuFacemerge":
-                                imageBeanResultBean = TencentAiTools.ptuFacemerge(photoActivity.imageFile, position + 1);
-                                break;
-                            default:
-                                break;
-                        }
-                        subscriber.onNext(imageBeanResultBean);
-                    }
-                }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultBean<ImageBean>>() {
-                    @Override
-                    public void call(ResultBean<ImageBean> imageBeanResultBean) {
+                    public void accept(ResultBean<ImageBean> imageBeanResultBean) throws Exception {
                         if (imageBeanResultBean == null) {
                             return;
                         }
@@ -132,15 +97,13 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListViewHolder> 
                         lastFile = file;
                     }
                 });
-
-
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return imageList == null ? 0 : imageList.size();
+        return photoBeautifyEnum == null ? 0 : photoBeautifyEnum.getImageUrlList().size();
     }
 
 }

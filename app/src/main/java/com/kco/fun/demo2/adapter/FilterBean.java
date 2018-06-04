@@ -1,5 +1,7 @@
 package com.kco.fun.demo2.adapter;
 
+import com.kco.fun.tools.PhotoBeautifyEnum;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,47 +9,21 @@ import java.util.List;
  * Created by 666666 on 2018/5/31.
  */
 public class FilterBean {
-    private String type;
-    private String name;
-    private String[] images;
+    private PhotoBeautifyEnum photoBeautifyEnum;
 
     public static List<FilterBean> getList() {
         List<FilterBean> list = new ArrayList<>();
-        list.add(new FilterBean("ptuFacesticker", "大头贴", ImageDrawable.ptu_facesticker));
-        list.add(new FilterBean("ptuFacecosmetic", "人脸美妆", ImageDrawable.ptu_facecosmetic));
-        list.add(new FilterBean("ptuImgfilter", "人物滤镜", ImageDrawable.ptu_imgfilter));
-        list.add(new FilterBean("visionImgfilter", "风景滤镜", ImageDrawable.vision_imgfilter));
-        list.add(new FilterBean("ptuFacemerge", "人脸融合", ImageDrawable.ptu_facemerge));
+        for (PhotoBeautifyEnum photoBeautifyEnum : PhotoBeautifyEnum.values()){
+            list.add(new FilterBean(photoBeautifyEnum));
+        }
         return list;
     }
 
-    public FilterBean(String type, String name, String[] images) {
-        this.type = type;
-        this.name = name;
-        this.images = images;
+    public FilterBean(PhotoBeautifyEnum photoBeautifyEnum) {
+        this.photoBeautifyEnum = photoBeautifyEnum;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getImages() {
-        List<String> result = new ArrayList<>();
-        for (String image : images){
-            result.add(image);
-        }
-        return result;
+    public PhotoBeautifyEnum getPhotoBeautifyEnum() {
+        return photoBeautifyEnum;
     }
 }

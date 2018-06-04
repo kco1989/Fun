@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import top.zibin.luban.OnCompressListener;
+
 import com.bumptech.glide.Glide;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoActivity;
@@ -19,6 +21,7 @@ import com.jph.takephoto.model.*;
 import com.kco.fun.R;
 import com.kco.fun.demo2.adapter.FilterListAdapter;
 import com.kco.fun.demo2.adapter.ImageListAdapter;
+import com.kco.fun.tools.PictureUtils;
 
 import org.apache.commons.io.FileUtils;
 
@@ -50,35 +53,36 @@ public class PhotoActivity extends TakePhotoActivity {
         imageListAdapter = new ImageListAdapter(this);
         FilterListAdapter filterListAdapter = new FilterListAdapter(this, imageListAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        filterList.setLayoutManager(layoutManager);
+        LinearLayoutManager filterListLayoutManager = new LinearLayoutManager(this);
+        filterListLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        filterList.setLayoutManager(filterListLayoutManager);
         filterList.setAdapter(filterListAdapter);
 
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
-        layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
-        imageList.setLayoutManager(layoutManager1);
+        LinearLayoutManager imageListLayoutManager = new LinearLayoutManager(this);
+        imageListLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        imageList.setLayoutManager(imageListLayoutManager);
         imageList.setAdapter(imageListAdapter);
         Log.d(TAG, "onCreate");
     }
 
     @OnClick(R.id.btnSumbit)
     public void sumbit(View view) {
-        File lastFile = imageListAdapter.lastFile;
-        if (lastFile == null || !lastFile.exists()){
-            return;
-        }
-        String[] split = lastFile.getName().split("\\.");
-        File externalFilesDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        String fileName = UUID.randomUUID().toString() + "." + split[split.length - 1];
-        File newFile = new File(externalFilesDir, fileName);
-        try {
-            FileUtils.copyFile(lastFile, newFile);
-            imageFile = newFile;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PictureUtils.compress(this, imageListAdapter.lastFile, new OnCompressListener() {
+            @Override
+            public void onStart() {
 
+            }
+
+            @Override
+            public void onSuccess(File file) {
+                imageFile = file;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
     }
 
     @Override
@@ -99,8 +103,24 @@ public class PhotoActivity extends TakePhotoActivity {
 
     private void showImg(TImage image) {
         Log.d(TAG, "showImg --> " + image.getOriginalPath());
-        this.imageFile = new File(image.getOriginalPath());
-        Glide.with(this).load(this.imageFile).into(imageView);
+        PictureUtils.compress(this, new File(image.getOriginalPath()), new OnCompressListener() {
+            @Override
+            public void onStart() {
+                System.out.println("onStart");
+            }
+
+            @Override
+            public void onSuccess(File file) {
+                imageFile = file;
+                Glide.with(PhotoActivity.this).load(file).into(imageView);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("onError");
+            }
+        });
+
     }
 
 

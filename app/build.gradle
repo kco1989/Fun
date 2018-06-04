@@ -39,9 +39,13 @@ dependencies {
     compile group: 'com.jph.takephoto', name: 'takephoto_library', version: '4.0.3'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
-// https://mvnrepository.com/artifact/net.iharder/base64
     compile group: 'net.iharder', name: 'base64', version: '2.3.9'
+    // https://mvnrepository.com/artifact/net.coobird/thumbnailator
+//    compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.8'
+    // https://mvnrepository.com/artifact/top.zibin/Luban
+    compile group: 'top.zibin', name: 'Luban', version: '1.1.3'
 
+//    compile group: 'net.coobird', name: ';', version: '0.4.8'
     compile 'com.android.support:recyclerview-v7:25.1.0'  //recycleView的依赖
 //    compile 'com.android.support:cardview-v7:25.1.0'  // 这是cardView的依赖
 }

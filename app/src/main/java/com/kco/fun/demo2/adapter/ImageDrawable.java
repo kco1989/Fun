@@ -5,7 +5,6 @@ package com.kco.fun.demo2.adapter;
  */
 public class ImageDrawable {
 
-
     public static String[] ptu_facecosmetic = {
         "http://yyb.gtimg.com/aiplat/ai/upload/doc/facecosmetic/1.png",
         "http://yyb.gtimg.com/aiplat/ai/upload/doc/facecosmetic/2.png",

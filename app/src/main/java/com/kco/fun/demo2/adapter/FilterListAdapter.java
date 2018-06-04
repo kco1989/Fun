@@ -35,13 +35,13 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListViewHolder
     public void onBindViewHolder(FilterListViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder");
         final FilterBean filterBean = filterBeanList.get(position);
-        holder.filterBtn.setText(filterBean.getName());
-        Log.d(TAG, filterBean.getName());
+        holder.filterBtn.setText(filterBean.getPhotoBeautifyEnum().getDescribe());
+        Log.d(TAG, filterBean.getPhotoBeautifyEnum().getDescribe());
         holder.filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "setOnClickListener -> " + filterBean.getName());
-                imageListAdapter.setImageList(filterBean.getImages(), filterBean.getType());
+                Log.d(TAG, "setOnClickListener -> " + filterBean.getPhotoBeautifyEnum().getDescribe());
+                imageListAdapter.setPhotoBeautifyEnum(filterBean.getPhotoBeautifyEnum());
 
             }
         });
@@ -51,14 +51,5 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListViewHolder
     public int getItemCount() {
         return filterBeanList.size();
     }
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        FilterBean filterBean = (FilterBean) getItem(position);
-//        View view = LayoutInflater.from(getContext()).inflate(R.layout.filter_list, null);
-//        TextView textView = view.findViewById(R.id.filterName);
-//        textView.setText(filterBean.getName());
-//        textView.setTag(filterBean);
-//        return textView;
-//    }
 
 }
