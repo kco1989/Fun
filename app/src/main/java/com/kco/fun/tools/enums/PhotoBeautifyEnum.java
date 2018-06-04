@@ -1,6 +1,6 @@
-package com.kco.fun.tools;
+package com.kco.fun.tools.enums;
 
-import com.kco.fun.demo2.adapter.ImageDrawable;
+import com.kco.fun.tools.TencentImageDrawables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,12 @@ import java.util.List;
  * Created by 666666 on 2018/6/4.
  */
 public enum PhotoBeautifyEnum {
-    ptuFacecosmetic("人脸美妆", ImageDrawable.ptu_facecosmetic),
-    ptuImgfilter("人物滤镜", ImageDrawable.ptu_imgfilter),
-    visionImgfilter("风景滤镜", ImageDrawable.vision_imgfilter),
-    ptuFacesticker("大头贴", ImageDrawable.ptu_facesticker),
-    ptuFacemerge("人脸融合", ImageDrawable.ptu_facemerge),
-    ptuFacedecoration("人脸变妆", ImageDrawable.ptu_facedecoration);
+    ptuFacecosmetic("人脸美妆", TencentImageDrawables.ptu_facecosmetic),
+    ptuImgfilter("人物滤镜", TencentImageDrawables.ptu_imgfilter),
+    visionImgfilter("风景滤镜", TencentImageDrawables.vision_imgfilter),
+    ptuFacesticker("大头贴", TencentImageDrawables.ptu_facesticker),
+    ptuFacemerge("人脸融合", TencentImageDrawables.ptu_facemerge),
+    ptuFacedecoration("人脸变妆", TencentImageDrawables.ptu_facedecoration);
 
     private String describe;
     private int maxSize;

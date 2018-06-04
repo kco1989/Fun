@@ -1,13 +1,18 @@
 package com.kco.fun.tools;
 
 
+import android.nfc.cardemulation.OffHostApduService;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kco.fun.exception.FunException;
 import com.kco.fun.tools.bean.DetectFaceBean;
 import com.kco.fun.tools.bean.ImageBean;
+import com.kco.fun.tools.bean.ImageRecognitionBean;
 import com.kco.fun.tools.bean.ResultBean;
 import com.kco.fun.tools.bean.TextchatBean;
+import com.kco.fun.tools.enums.ImageRecognitionEnum;
+import com.kco.fun.tools.enums.PhotoBeautifyEnum;
 
 import net.iharder.Base64;
 
@@ -42,6 +47,154 @@ public final class RxTencentAiTools {
     private static String appKey = "7h7G4R5cYsbZj63l";
     private static String urlPrefix = "https://api.ai.qq.com/fcgi-bin";
     private static Gson gson =  new Gson();
+
+
+    public static void imageRecognition(final ImageRecognitionEnum imageRecognitionEnum,
+                                        final File imageFile,
+                                        Consumer<ResultBean<ImageRecognitionBean>> consumer){
+        if (imageRecognitionEnum == null){
+            throw new FunException("参数有误");
+        }
+        if (imageFile == null || !imageFile.exists()){
+            throw new FunException("文件不存在");
+        }
+        Observable.create(new ObservableOnSubscribe<ResultBean<ImageRecognitionBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<ResultBean<ImageRecognitionBean>> emitter) throws Exception {
+                ResultBean<ImageRecognitionBean> resultBean = null;
+                switch (imageRecognitionEnum) {
+                    case vision_scener: // 场景识别
+                        resultBean = vision_scener(imageFile);
+                        break;
+                    case vision_objectr:    // 物体识别
+                        resultBean = vision_objectr(imageFile);
+                        break;
+                    case image_tag: // 图像标签识别
+                        resultBean = image_tag(imageFile);
+                        break;
+                    case vision_imgidentify_flower:    // 花草/车辆识别
+                        resultBean = vision_imgidentify(imageFile, true);
+                        break;
+                    case vision_imgidentify_car:    // 花草/车辆识别
+                        resultBean = vision_imgidentify(imageFile, false);
+                        break;
+                    case vision_imgtotext:  // 看图说话
+                        resultBean = vision_imgtotext(imageFile);
+                        break;
+                    default:
+                        break;
+                }
+                emitter.onNext(resultBean);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(consumer);
+    }
+
+    private static ResultBean<ImageRecognitionBean> vision_imgtotext(File imageFile) {
+        String baseUrl = urlPrefix + "/vision/vision_imgtotext";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("session_id", randomString(64));
+        map.put("sign", sign(map, appKey));
+        return httpPost(baseUrl, map, ImageRecognitionBean.class);
+    }
+
+    private static ResultBean<ImageRecognitionBean> vision_imgidentify(File imageFile, boolean isFlower) {
+        String baseUrl = urlPrefix + "/vision/vision_imgidentify";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("scene", isFlower ? "2" : "1");
+        map.put("sign", sign(map, appKey));
+        ResultBean<ImageRecognitionBean> resultBean = httpPost(baseUrl, map, ImageRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            StringBuffer sb = new StringBuffer();
+            for (ImageRecognitionBean.Tag tag : resultBean.getData().getTag_list()) {
+                sb.append(tag.getLabel_name() + ",");
+            }
+            if (sb.length() > 0){
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
+    private static ResultBean<ImageRecognitionBean> image_tag(File imageFile) {
+        String baseUrl = urlPrefix + "/image/image_tag";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("sign", sign(map, appKey));
+        ResultBean<ImageRecognitionBean> resultBean = httpPost(baseUrl, map, ImageRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            StringBuffer sb = new StringBuffer();
+            for (ImageRecognitionBean.Tag tag : resultBean.getData().getTag_list()) {
+                sb.append(tag.getTag_name() + ",");
+            }
+            if (sb.length() > 0){
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
+    private static ResultBean<ImageRecognitionBean> vision_objectr(File imageFile) {
+        String baseUrl = urlPrefix + "/vision/vision_objectr";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("format", "1");
+        map.put("topk", "5");
+        map.put("image", file2Base64(imageFile));
+        map.put("sign", sign(map, appKey));
+        ResultBean<ImageRecognitionBean> resultBean = httpPost(baseUrl, map, ImageRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            StringBuffer sb = new StringBuffer();
+            for (ImageRecognitionBean.Tag tag : resultBean.getData().getObject_list()) {
+                sb.append(ImageRecognitionBean.objectrMap.get(tag.getLabel_id()) + ",");
+            }
+            if (sb.length() > 0){
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
+    private static ResultBean<ImageRecognitionBean> vision_scener(File imageFile) {
+        String baseUrl = urlPrefix + "/vision/vision_scener";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("format", "1");
+        map.put("topk", "5");
+        map.put("image", file2Base64(imageFile));
+        map.put("sign", sign(map, appKey));
+        ResultBean<ImageRecognitionBean> resultBean = httpPost(baseUrl, map, ImageRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            StringBuffer sb = new StringBuffer();
+            for (ImageRecognitionBean.Tag tag : resultBean.getData().getScene_list()) {
+                sb.append(ImageRecognitionBean.scenerMap.get(tag.getLabel_id()) + ",");
+            }
+            if (sb.length() > 0){
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
 
     public static void beautify(final PhotoBeautifyEnum beautifyEnum,
                                 final File imageFile, int param,

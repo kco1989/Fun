@@ -1,6 +1,6 @@
 package com.kco.fun.demo2.adapter;
 
-import com.kco.fun.tools.PhotoBeautifyEnum;
+import com.kco.fun.tools.enums.PhotoBeautifyEnum;
 
 import java.util.ArrayList;
 import java.util.List;

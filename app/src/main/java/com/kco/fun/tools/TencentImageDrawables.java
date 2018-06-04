@@ -1,9 +1,9 @@
-package com.kco.fun.demo2.adapter;
+package com.kco.fun.tools;
 
 /**
  * Created by 666666 on 2018/5/31.
  */
-public class ImageDrawable {
+public class TencentImageDrawables {
 
     public static String[] ptu_facecosmetic = {
         "http://yyb.gtimg.com/aiplat/ai/upload/doc/facecosmetic/1.png",

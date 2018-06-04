@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.kco.fun.R;
 import com.kco.fun.demo2.PhotoActivity;
-import com.kco.fun.tools.PhotoBeautifyEnum;
+import com.kco.fun.tools.enums.PhotoBeautifyEnum;
 import com.kco.fun.tools.RxTencentAiTools;
 import com.kco.fun.tools.TencentAiTools;
 import com.kco.fun.tools.bean.ImageBean;
