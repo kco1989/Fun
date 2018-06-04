@@ -69,13 +69,12 @@ public class PhotoActivity extends TakePhotoActivity {
     public void sumbit(View view) {
         PictureUtils.compress(this, imageListAdapter.lastFile, new OnCompressListener() {
             @Override
-            public void onStart() {
-
-            }
+            public void onStart() {}
 
             @Override
             public void onSuccess(File file) {
                 imageFile = file;
+                Glide.with(PhotoActivity.this).load(file).into(imageView);
             }
 
             @Override

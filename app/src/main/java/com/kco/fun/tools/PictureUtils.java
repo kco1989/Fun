@@ -1,13 +1,8 @@
 package com.kco.fun.tools;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.sip.SipAudioCall;
 import android.os.Environment;
-import android.util.Log;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import top.zibin.luban.Luban;
@@ -26,7 +21,7 @@ public class PictureUtils {
         }
         Luban.with(context).load(srcFile)
                 .setTargetDir(context.getExternalFilesDir(Environment.DIRECTORY_DCIM).getAbsolutePath())
-                .ignoreBy(500 * 1024)
+                .ignoreBy(500)
                 .setCompressListener(listener)
                 .launch();
     }
