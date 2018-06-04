@@ -14,7 +14,8 @@ public enum PhotoBeautifyEnum {
     ptuImgfilter("人物滤镜", ImageDrawable.ptu_imgfilter),
     visionImgfilter("风景滤镜", ImageDrawable.vision_imgfilter),
     ptuFacesticker("大头贴", ImageDrawable.ptu_facesticker),
-    ptuFacemerge("人脸融合", ImageDrawable.ptu_facemerge);
+    ptuFacemerge("人脸融合", ImageDrawable.ptu_facemerge),
+    ptuFacedecoration("人脸变妆", ImageDrawable.ptu_facedecoration);
 
     private String describe;
     private int maxSize;

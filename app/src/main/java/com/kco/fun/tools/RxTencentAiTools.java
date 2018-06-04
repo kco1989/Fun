@@ -76,6 +76,9 @@ public final class RxTencentAiTools {
                     case visionImgfilter:
                         imageBeanResultBean = visionImgfilter(imageFile, finalParam);
                         break;
+                    case ptuFacedecoration:
+                        imageBeanResultBean = ptuFacedecoration(imageFile, finalParam);
+                        break;
                     default:
                         break;
                 }
@@ -84,13 +87,25 @@ public final class RxTencentAiTools {
         }).subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread()).subscribe(consumer);
     }
+
+    private static ResultBean<ImageBean> ptuFacedecoration(File imageFile, int decoration) {
+        String baseUrl = urlPrefix + "/ptu/ptu_facedecoration";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("decoration", decoration + "");
+        map.put("sign", sign(map, appKey));
+        return httpPost(baseUrl, map, ImageBean.class);
+    }
+
     /**
      * 人脸美妆
      * sticker 1 ~ 23
      * http://ai.qq.com/doc/ptuimgfilter.shtml
      */
     private static ResultBean<ImageBean> ptuFacecosmetic(File imageFile, int cosmetic) {
-
         String baseUrl = urlPrefix + "/ptu/ptu_facecosmetic";
         Map<String, String> map = new TreeMap<>();
         map.put("app_id", appId);
