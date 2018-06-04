@@ -199,7 +199,7 @@ public final class RxTencentAiTools {
     }
 
     /**
-     * 只能闲聊
+     * 智能闲聊
      * http://ai.qq.com/doc/nlpchat.shtml
      */
     public static ResultBean<TextchatBean> nlpTextchat(String question){
