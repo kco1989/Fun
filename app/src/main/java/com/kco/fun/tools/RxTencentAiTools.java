@@ -1,18 +1,16 @@
 package com.kco.fun.tools;
 
 
-import android.nfc.cardemulation.OffHostApduService;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kco.fun.exception.FunException;
-import com.kco.fun.tools.bean.DetectFaceBean;
-import com.kco.fun.tools.bean.ImageBean;
-import com.kco.fun.tools.bean.ImageRecognitionBean;
-import com.kco.fun.tools.bean.ResultBean;
-import com.kco.fun.tools.bean.TextchatBean;
-import com.kco.fun.tools.enums.ImageRecognitionEnum;
-import com.kco.fun.tools.enums.PhotoBeautifyEnum;
+import com.kco.fun.bean.DetectFaceBean;
+import com.kco.fun.bean.ImageBean;
+import com.kco.fun.bean.ImageRecognitionBean;
+import com.kco.fun.bean.ResultBean;
+import com.kco.fun.bean.TextchatBean;
+import com.kco.fun.enums.ImageRecognitionEnum;
+import com.kco.fun.enums.PhotoBeautifyEnum;
 
 import net.iharder.Base64;
 

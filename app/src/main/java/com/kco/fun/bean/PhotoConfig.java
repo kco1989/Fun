@@ -1,4 +1,4 @@
-package com.kco.fun.demo2;
+package com.kco.fun.bean;
 
 /**
  * Created by 666666 on 2018/5/31.

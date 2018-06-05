@@ -1,13 +1,13 @@
-package com.kco.fun.demo2.adapter;
+package com.kco.fun.adapter;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.kco.fun.R;
+import com.kco.fun.bean.FilterBean;
 
 import java.util.List;
 

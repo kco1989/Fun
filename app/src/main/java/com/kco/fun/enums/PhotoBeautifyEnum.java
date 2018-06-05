@@ -1,4 +1,4 @@
-package com.kco.fun.tools.enums;
+package com.kco.fun.enums;
 
 import com.kco.fun.tools.TencentImageDrawables;
 

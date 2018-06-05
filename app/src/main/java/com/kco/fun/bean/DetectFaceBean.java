@@ -1,4 +1,4 @@
-package com.kco.fun.tools.bean;
+package com.kco.fun.bean;
 
 import java.util.List;
 

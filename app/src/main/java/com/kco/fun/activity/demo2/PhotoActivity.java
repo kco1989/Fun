@@ -1,8 +1,6 @@
-package com.kco.fun.demo2;
+package com.kco.fun.activity.demo2;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,21 +12,16 @@ import butterknife.OnClick;
 import top.zibin.luban.OnCompressListener;
 
 import com.bumptech.glide.Glide;
-import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoActivity;
-import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.*;
 import com.kco.fun.R;
-import com.kco.fun.demo2.adapter.FilterListAdapter;
-import com.kco.fun.demo2.adapter.ImageListAdapter;
+import com.kco.fun.bean.PhotoConfig;
+import com.kco.fun.adapter.FilterListAdapter;
+import com.kco.fun.adapter.ImageListAdapter;
 import com.kco.fun.tools.PictureUtils;
 import com.kco.fun.tools.TakePhotoUtils;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Created by 666666 on 2018/5/31.

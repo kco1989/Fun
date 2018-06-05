@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kco.fun.demo1.SimpleActivity;
-import com.kco.fun.demo2.PhotoActivity;
-import com.kco.fun.demo3.ImageRecognitionActivity;
+import com.kco.fun.activity.demo1.SimpleActivity;
+import com.kco.fun.activity.demo2.PhotoActivity;
+import com.kco.fun.activity.demo3.ImageRecognitionActivity;
 
 public class MainActivity extends AppCompatActivity {
 

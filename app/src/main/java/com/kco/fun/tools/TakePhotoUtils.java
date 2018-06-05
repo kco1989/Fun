@@ -9,7 +9,7 @@ import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.LubanOptions;
 import com.jph.takephoto.model.TakePhotoOptions;
-import com.kco.fun.demo2.PhotoConfig;
+import com.kco.fun.bean.PhotoConfig;
 
 import java.io.File;
 

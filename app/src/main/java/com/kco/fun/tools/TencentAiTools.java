@@ -3,10 +3,10 @@ package com.kco.fun.tools;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.kco.fun.tools.bean.DetectFaceBean;
-import com.kco.fun.tools.bean.ImageBean;
-import com.kco.fun.tools.bean.ResultBean;
-import com.kco.fun.tools.bean.TextchatBean;
+import com.kco.fun.bean.DetectFaceBean;
+import com.kco.fun.bean.ImageBean;
+import com.kco.fun.bean.ResultBean;
+import com.kco.fun.bean.TextchatBean;
 
 import net.iharder.Base64;
 

@@ -19,10 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".demo1.ResultActivity"/>
-        <activity android:name=".demo1.SimpleActivity"/>
-        <activity android:name=".demo2.PhotoActivity"/>
-        <activity android:name=".demo3.ImageRecognitionActivity"/>
+        <activity android:name=".activity.demo1.ResultActivity"/>
+        <activity android:name=".activity.demo1.SimpleActivity"/>
+        <activity android:name=".activity.demo2.PhotoActivity"/>
+        <activity android:name=".activity.demo3.ImageRecognitionActivity"/>
     </application>
 
 </manifest>

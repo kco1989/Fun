@@ -1,4 +1,4 @@
-package com.kco.fun.tools.enums;
+package com.kco.fun.enums;
 
 /**
  * Created by 666666 on 2018/6/4.

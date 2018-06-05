@@ -1,4 +1,4 @@
-package com.kco.fun.demo2.adapter;
+package com.kco.fun.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

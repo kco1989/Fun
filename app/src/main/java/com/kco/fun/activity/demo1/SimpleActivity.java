@@ -1,4 +1,4 @@
-package com.kco.fun.demo1;
+package com.kco.fun.activity.demo1;
 
 import android.content.Intent;
 import android.os.Bundle;

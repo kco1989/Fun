@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.kco.fun.demo1.SimpleActivity">
+        tools:context="com.kco.fun.activity.demo1.SimpleActivity">
 
     <Button android:id="@+id/start_simple"
             android:text="获取图片测试"

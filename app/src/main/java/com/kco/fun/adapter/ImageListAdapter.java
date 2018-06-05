@@ -1,4 +1,4 @@
-package com.kco.fun.demo2.adapter;
+package com.kco.fun.adapter;
 
 import android.content.Context;
 import android.os.Environment;
@@ -11,12 +11,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.kco.fun.R;
-import com.kco.fun.demo2.PhotoActivity;
-import com.kco.fun.tools.enums.PhotoBeautifyEnum;
+import com.kco.fun.activity.demo2.PhotoActivity;
+import com.kco.fun.enums.PhotoBeautifyEnum;
 import com.kco.fun.tools.RxTencentAiTools;
 import com.kco.fun.tools.TencentAiTools;
-import com.kco.fun.tools.bean.ImageBean;
-import com.kco.fun.tools.bean.ResultBean;
+import com.kco.fun.bean.ImageBean;
+import com.kco.fun.bean.ResultBean;
 
 import java.io.File;
 

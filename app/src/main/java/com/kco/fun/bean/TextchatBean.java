@@ -1,4 +1,4 @@
-package com.kco.fun.tools.bean;
+package com.kco.fun.bean;
 
 /**
  * Created by 666666 on 2018/5/30.
