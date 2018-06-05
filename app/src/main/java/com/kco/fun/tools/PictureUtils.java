@@ -14,14 +14,14 @@ import top.zibin.luban.OnCompressListener;
 
 public class PictureUtils {
     private static final String TAG = "PictureUtils";
-    public static void compress(Context context,
+    public static void compress(Context context,int ignoreBySize,
                                 File srcFile, OnCompressListener listener) {
         if (!srcFile.exists()){
             return;
         }
         Luban.with(context).load(srcFile)
                 .setTargetDir(context.getExternalFilesDir(Environment.DIRECTORY_DCIM).getAbsolutePath())
-                .ignoreBy(500)
+                .ignoreBy(ignoreBySize)
                 .setCompressListener(listener)
                 .launch();
     }

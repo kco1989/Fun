@@ -8,6 +8,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.kco.fun.demo1.SimpleActivity;
 import com.kco.fun.demo2.PhotoActivity;
+import com.kco.fun.demo3.ImageRecognitionActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.start_photo)
     public void startPhoto(View view){
         Intent intent = new Intent(this, PhotoActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.start_imageRecognition)
+    public void startImageRecognition(View view){
+        Intent intent = new Intent(this, ImageRecognitionActivity.class);
         startActivity(intent);
     }
 }
