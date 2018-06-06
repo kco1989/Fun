@@ -58,6 +58,7 @@ public class OcrRecognitionActivity extends TakePhotoActivity {
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         Log.d(TAG, result.getImage().getOriginalPath());
+        tvOcrText.setText("");
         PictureUtils.compress(this, 1024, new File(result.getImage().getOriginalPath()), new OnCompressListener() {
             @Override
             public void onStart() {

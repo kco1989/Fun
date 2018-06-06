@@ -48,9 +48,11 @@
                   android:orientation="vertical"
                   android:padding="10dp">
         <TextView android:id="@+id/tvOcrText"
-                android:text="应用"
+                android:text=""
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:textIsSelectable="true"
+                android:focusable="true"
+                android:longClickable="true" />
     </ScrollView>
 </LinearLayout>
