@@ -23,6 +23,7 @@
         <activity android:name=".activity.demo1.SimpleActivity"/>
         <activity android:name=".activity.demo2.PhotoActivity"/>
         <activity android:name=".activity.demo3.ImageRecognitionActivity"/>
+        <activity android:name=".activity.demo4.OcrRecognitionActivity"/>
     </application>
 
 </manifest>

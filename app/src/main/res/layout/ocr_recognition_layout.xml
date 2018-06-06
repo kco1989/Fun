@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+        <Button
+                android:id="@+id/btnOcrPickByTake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="拍照" />
+
+        <Button
+                android:id="@+id/btnOcrPickBySelect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="选择照片" />
+    </LinearLayout>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:padding="10dp"
+                    android:layout_height="400dp">
+        <ImageView
+                android:id="@+id/imageViewOcr"
+                android:layout_width="match_parent"
+                   android:layout_height="match_parent"/>
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/btnOcrList"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+    </RelativeLayout>
+
+    <ScrollView android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:padding="10dp">
+        <TextView android:id="@+id/tvOcrText"
+                android:text="应用"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+    </ScrollView>
+</LinearLayout>

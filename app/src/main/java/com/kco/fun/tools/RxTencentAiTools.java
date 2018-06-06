@@ -1,8 +1,12 @@
 package com.kco.fun.tools;
 
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kco.fun.bean.OcrRecognitionBean;
+import com.kco.fun.enums.OcrRecognitionEnum;
 import com.kco.fun.exception.FunException;
 import com.kco.fun.bean.DetectFaceBean;
 import com.kco.fun.bean.ImageBean;
@@ -27,6 +31,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -41,19 +46,215 @@ import io.reactivex.schedulers.Schedulers;
  * Created by 666666 on 2018/5/29.
  */
 public final class RxTencentAiTools {
+    private static String Tag = "RxTencentAiTools";
     private static String appId = "1106938386";
     private static String appKey = "7h7G4R5cYsbZj63l";
     private static String urlPrefix = "https://api.ai.qq.com/fcgi-bin";
-    private static Gson gson =  new Gson();
+    private static Gson gson = new Gson();
 
+    public static void orcRecognition(final OcrRecognitionEnum ocrRecognitionEnum,
+                                      final File imageFile,
+                                      Consumer<ResultBean<OcrRecognitionBean>> consumer) {
+        if (ocrRecognitionEnum == null) {
+            throw new FunException("参数有误");
+        }
+        if (imageFile == null || !imageFile.exists()) {
+            throw new FunException("文件不存在");
+        }
+        Observable.create(new ObservableOnSubscribe<ResultBean<OcrRecognitionBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<ResultBean<OcrRecognitionBean>> emitter) throws Exception {
+                ResultBean<OcrRecognitionBean> resultBean = null;
+                switch (ocrRecognitionEnum) {
+                    case ocr_idcardocr_Positive:
+                        resultBean = ocr_idcardocr(imageFile, true);
+                        break;
+                    case ocr_idcardocr_opposite:
+                        resultBean = ocr_idcardocr(imageFile, false);
+                        break;
+                    case ocr_bcocr:
+                        resultBean = ocr_bcocr(imageFile);
+                        break;
+                    case ocr_driver:
+                        resultBean = ocr_driverlicenseocr(imageFile, true);
+                        break;
+                    case ocr_license:
+                        resultBean = ocr_driverlicenseocr(imageFile, false);
+                        break;
+                    case ocr_bizlicenseocr:
+                        resultBean = ocr_bizlicenseocr(imageFile);
+                        break;
+                    case ocr_creditcardocr:
+                        resultBean = ocr_creditcardocr(imageFile);
+                        break;
+                    case ocr_generalocr:
+                        resultBean = ocr_generalocr(imageFile);
+                        break;
+                    default:
+                        break;
+                }
+                emitter.onNext(resultBean);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(consumer);
+    }
+
+    private static ResultBean<OcrRecognitionBean> ocr_generalocr(File imageFile) {
+        String baseUrl = urlPrefix + "/ocr/ocr_generalocr";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("sign", sign(map, appKey));
+        ResultBean<OcrRecognitionBean> resultBean = httpPost(baseUrl, map, OcrRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            List<OcrRecognitionBean.Item> item_list = resultBean.getData().getItem_list();
+            StringBuffer sb = new StringBuffer();
+            if (item_list != null && !item_list.isEmpty()){
+                for (OcrRecognitionBean.Item item : item_list){
+                    sb.append(item.getItemstring())
+                            .append("\n");
+                }
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
+    private static ResultBean<OcrRecognitionBean> ocr_creditcardocr(File imageFile) {
+        String baseUrl = urlPrefix + "/ocr/ocr_creditcardocr";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("sign", sign(map, appKey));
+        ResultBean<OcrRecognitionBean> resultBean = httpPost(baseUrl, map, OcrRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            List<OcrRecognitionBean.Item> item_list = resultBean.getData().getItem_list();
+            StringBuffer sb = new StringBuffer();
+            if (item_list != null && !item_list.isEmpty()){
+                for (OcrRecognitionBean.Item item : item_list){
+                    sb.append(item.getItem()).append(":")
+                            .append(item.getItemstring())
+                            .append("\n");
+                }
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
+    private static ResultBean<OcrRecognitionBean> ocr_bizlicenseocr(File imageFile) {
+        String baseUrl = urlPrefix + "/ocr/ocr_bizlicenseocr";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("sign", sign(map, appKey));
+        ResultBean<OcrRecognitionBean> resultBean = httpPost(baseUrl, map, OcrRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            List<OcrRecognitionBean.Item> item_list = resultBean.getData().getItem_list();
+            StringBuffer sb = new StringBuffer();
+            if (item_list != null && !item_list.isEmpty()){
+                for (OcrRecognitionBean.Item item : item_list){
+                    sb.append(item.getItem()).append(":")
+                            .append(item.getItemstring())
+                            .append("\n");
+                }
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
+    private static ResultBean<OcrRecognitionBean> ocr_driverlicenseocr(File imageFile, boolean isDriver) {
+        String baseUrl = urlPrefix + "/ocr/ocr_driverlicenseocr";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("type", isDriver ? "1" : "0");
+        map.put("sign", sign(map, appKey));
+        ResultBean<OcrRecognitionBean> resultBean = httpPost(baseUrl, map, OcrRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            List<OcrRecognitionBean.Item> item_list = resultBean.getData().getItem_list();
+            StringBuffer sb = new StringBuffer();
+            if (item_list != null && !item_list.isEmpty()){
+                for (OcrRecognitionBean.Item item : item_list){
+                    sb.append(item.getItem()).append(":")
+                            .append(item.getItemstring())
+                            .append("\n");
+                }
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
+    private static ResultBean<OcrRecognitionBean> ocr_bcocr(File imageFile) {
+        String baseUrl = urlPrefix + "/ocr/ocr_bcocr";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("sign", sign(map, appKey));
+        ResultBean<OcrRecognitionBean> resultBean = httpPost(baseUrl, map, OcrRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            List<OcrRecognitionBean.Item> item_list = resultBean.getData().getItem_list();
+            StringBuffer sb = new StringBuffer();
+            if (item_list != null && !item_list.isEmpty()){
+                for (OcrRecognitionBean.Item item : item_list){
+                    sb.append(item.getItem()).append(":")
+                            .append(item.getItemstring())
+                            .append("\n");
+                }
+            }
+            resultBean.getData().setText(sb.toString());
+        }
+        return resultBean;
+    }
+
+    private static ResultBean<OcrRecognitionBean> ocr_idcardocr(File imageFile, boolean isPositive) {
+        String baseUrl = urlPrefix + "/ocr/ocr_idcardocr";
+        Map<String, String> map = new TreeMap<>();
+        map.put("app_id", appId);
+        map.put("time_stamp", currentTime());
+        map.put("nonce_str", randomString(32));
+        map.put("image", file2Base64(imageFile));
+        map.put("card_type", isPositive ? "0" : "1");
+        map.put("sign", sign(map, appKey));
+        ResultBean<OcrRecognitionBean> resultBean = httpPost(baseUrl, map, OcrRecognitionBean.class);
+        if (resultBean.getRet() == 0){
+            OcrRecognitionBean data = resultBean.getData();
+            StringBuffer sb = new StringBuffer();
+            if (isPositive){
+                sb.append("身份证号:").append(data.getId()).append("\n")
+                        .append("姓名:").append(data.getName()).append("\n")
+                        .append("性别:").append(data.getSex()).append("\n")
+                        .append("民族:").append(data.getNation()).append("\n")
+                        .append("出生日期:").append(data.getBirth()).append("\n")
+                        .append("地址:").append(data.getAddress()).append("\n");
+            }else {
+                sb.append("发证机关:").append(data.getAuthority()).append("\n")
+                        .append("证件的有效期:").append(data.getValid_date()).append("\n");
+            }
+            data.setText(sb.toString());
+        }
+        return resultBean;
+    }
 
     public static void imageRecognition(final ImageRecognitionEnum imageRecognitionEnum,
                                         final File imageFile,
-                                        Consumer<ResultBean<ImageRecognitionBean>> consumer){
-        if (imageRecognitionEnum == null){
+                                        Consumer<ResultBean<ImageRecognitionBean>> consumer) {
+        if (imageRecognitionEnum == null) {
             throw new FunException("参数有误");
         }
-        if (imageFile == null || !imageFile.exists()){
+        if (imageFile == null || !imageFile.exists()) {
             throw new FunException("文件不存在");
         }
         Observable.create(new ObservableOnSubscribe<ResultBean<ImageRecognitionBean>>() {
@@ -110,12 +311,12 @@ public final class RxTencentAiTools {
         map.put("scene", isFlower ? "2" : "1");
         map.put("sign", sign(map, appKey));
         ResultBean<ImageRecognitionBean> resultBean = httpPost(baseUrl, map, ImageRecognitionBean.class);
-        if (resultBean.getRet() == 0){
+        if (resultBean.getRet() == 0) {
             StringBuffer sb = new StringBuffer();
             for (ImageRecognitionBean.Tag tag : resultBean.getData().getTag_list()) {
                 sb.append(tag.getLabel_name() + ",");
             }
-            if (sb.length() > 0){
+            if (sb.length() > 0) {
                 sb.deleteCharAt(sb.length() - 1);
             }
             resultBean.getData().setText(sb.toString());
@@ -132,12 +333,12 @@ public final class RxTencentAiTools {
         map.put("image", file2Base64(imageFile));
         map.put("sign", sign(map, appKey));
         ResultBean<ImageRecognitionBean> resultBean = httpPost(baseUrl, map, ImageRecognitionBean.class);
-        if (resultBean.getRet() == 0){
+        if (resultBean.getRet() == 0) {
             StringBuffer sb = new StringBuffer();
             for (ImageRecognitionBean.Tag tag : resultBean.getData().getTag_list()) {
                 sb.append(tag.getTag_name() + ",");
             }
-            if (sb.length() > 0){
+            if (sb.length() > 0) {
                 sb.deleteCharAt(sb.length() - 1);
             }
             resultBean.getData().setText(sb.toString());
@@ -156,12 +357,12 @@ public final class RxTencentAiTools {
         map.put("image", file2Base64(imageFile));
         map.put("sign", sign(map, appKey));
         ResultBean<ImageRecognitionBean> resultBean = httpPost(baseUrl, map, ImageRecognitionBean.class);
-        if (resultBean.getRet() == 0){
+        if (resultBean.getRet() == 0) {
             StringBuffer sb = new StringBuffer();
             for (ImageRecognitionBean.Tag tag : resultBean.getData().getObject_list()) {
                 sb.append(ImageRecognitionBean.objectrMap.get(tag.getLabel_id()) + ",");
             }
-            if (sb.length() > 0){
+            if (sb.length() > 0) {
                 sb.deleteCharAt(sb.length() - 1);
             }
             resultBean.getData().setText(sb.toString());
@@ -180,12 +381,12 @@ public final class RxTencentAiTools {
         map.put("image", file2Base64(imageFile));
         map.put("sign", sign(map, appKey));
         ResultBean<ImageRecognitionBean> resultBean = httpPost(baseUrl, map, ImageRecognitionBean.class);
-        if (resultBean.getRet() == 0){
+        if (resultBean.getRet() == 0) {
             StringBuffer sb = new StringBuffer();
             for (ImageRecognitionBean.Tag tag : resultBean.getData().getScene_list()) {
                 sb.append(ImageRecognitionBean.scenerMap.get(tag.getLabel_id()) + ",");
             }
-            if (sb.length() > 0){
+            if (sb.length() > 0) {
                 sb.deleteCharAt(sb.length() - 1);
             }
             resultBean.getData().setText(sb.toString());
@@ -197,13 +398,13 @@ public final class RxTencentAiTools {
     public static void beautify(final PhotoBeautifyEnum beautifyEnum,
                                 final File imageFile, int param,
                                 Consumer<ResultBean<ImageBean>> consumer) {
-        if (beautifyEnum == null){
+        if (beautifyEnum == null) {
             throw new FunException("参数有误");
         }
-        if (imageFile == null || !imageFile.exists()){
+        if (imageFile == null || !imageFile.exists()) {
             throw new FunException("文件不存在");
         }
-        if (param <= 0 || param > beautifyEnum.getMaxSize()){
+        if (param <= 0 || param > beautifyEnum.getMaxSize()) {
             param = 1;
         }
         final int finalParam = param;
@@ -236,7 +437,7 @@ public final class RxTencentAiTools {
                 emitter.onNext(imageBeanResultBean);
             }
         }).subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread()).subscribe(consumer);
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(consumer);
     }
 
     private static ResultBean<ImageBean> ptuFacedecoration(File imageFile, int decoration) {
@@ -284,6 +485,7 @@ public final class RxTencentAiTools {
         map.put("sign", sign(map, appKey));
         return httpPost(baseUrl, map, ImageBean.class);
     }
+
     /**
      * 风景滤镜
      * sticker 1 ~ 65
@@ -301,6 +503,7 @@ public final class RxTencentAiTools {
         map.put("sign", sign(map, appKey));
         return httpPost(baseUrl, map, ImageBean.class);
     }
+
     /**
      * 大头贴
      * sticker 1 ~ 31
@@ -317,24 +520,26 @@ public final class RxTencentAiTools {
         map.put("sign", sign(map, appKey));
         return httpPost(baseUrl, map, ImageBean.class);
     }
+
     /**
      * 人脸融合
+     *
      * @param model 类型 1~50
-     * <ul>
-     *     <li>1. 奇迹</li><li>2. 压岁钱</li><li>3. 范蠡</li><li>4. 李白</li><li>5. 孙尚香</li>
-     *     <li>6. 花无缺</li><li>7. 西施</li><li>8. 杨玉环</li><li>9. 白浅</li><li>10. 凤九</li>
-     *     <li>11. 夜华</li><li>12. 年年有余</li><li>13. 新年萌萌哒</li><li>14. 王者荣耀荆轲</li><li>15. 王者荣耀李白</li>
-     *     <li>16. 王者荣耀哪吒</li><li>17. 王者荣耀王昭君</li><li>18. 王者荣耀甄姬</li><li>19. 王者荣耀诸葛亮</li><li>20. 赵灵儿</li>
-     *     <li>21. 李逍遥</li><li>22. 爆炸头</li><li>23. 村姑</li><li>24. 光头</li><li>25. 呵呵哒</li>
-     *     <li>26. 肌肉</li><li>27. 肉山</li><li>28. 机智</li><li>29. 1927年军装（男）</li><li>30. 1927年军装（女）</li>
-     *     <li>31. 1929年军装（男）</li><li>32. 1929年军装（女）</li><li>33. 1937年军装（男）</li><li>34. 1937年军装（女）</li><li>35. 1948年军装（男）</li>
-     *     <li>36. 1948年军装（女）</li><li>37. 1950年军装（男）</li><li>38. 1950年军装（女）</li><li>39. 1955年军装（男）</li><li>40. 1955年军装（女）</li>
-     *     <li>41. 1965年军装（男)</li><li>42. 1965年军装（女）</li><li>43. 1985年军装（男）</li><li>44. 1985年军装（女）</li><li>45. 1987年军装（男）</li>
-     *     <li>46. 1987年军装（女）</li><li>47. 1999年军装（男）</li><li>48. 1999年军装（女）</li><li>49. 2007年军装（男）</li><li>50. 2007年军装（女）</li>
-     * </ul>
-     * http://ai.qq.com/doc/facemerge.shtml
+     *              <ul>
+     *              <li>1. 奇迹</li><li>2. 压岁钱</li><li>3. 范蠡</li><li>4. 李白</li><li>5. 孙尚香</li>
+     *              <li>6. 花无缺</li><li>7. 西施</li><li>8. 杨玉环</li><li>9. 白浅</li><li>10. 凤九</li>
+     *              <li>11. 夜华</li><li>12. 年年有余</li><li>13. 新年萌萌哒</li><li>14. 王者荣耀荆轲</li><li>15. 王者荣耀李白</li>
+     *              <li>16. 王者荣耀哪吒</li><li>17. 王者荣耀王昭君</li><li>18. 王者荣耀甄姬</li><li>19. 王者荣耀诸葛亮</li><li>20. 赵灵儿</li>
+     *              <li>21. 李逍遥</li><li>22. 爆炸头</li><li>23. 村姑</li><li>24. 光头</li><li>25. 呵呵哒</li>
+     *              <li>26. 肌肉</li><li>27. 肉山</li><li>28. 机智</li><li>29. 1927年军装（男）</li><li>30. 1927年军装（女）</li>
+     *              <li>31. 1929年军装（男）</li><li>32. 1929年军装（女）</li><li>33. 1937年军装（男）</li><li>34. 1937年军装（女）</li><li>35. 1948年军装（男）</li>
+     *              <li>36. 1948年军装（女）</li><li>37. 1950年军装（男）</li><li>38. 1950年军装（女）</li><li>39. 1955年军装（男）</li><li>40. 1955年军装（女）</li>
+     *              <li>41. 1965年军装（男)</li><li>42. 1965年军装（女）</li><li>43. 1985年军装（男）</li><li>44. 1985年军装（女）</li><li>45. 1987年军装（男）</li>
+     *              <li>46. 1987年军装（女）</li><li>47. 1999年军装（男）</li><li>48. 1999年军装（女）</li><li>49. 2007年军装（男）</li><li>50. 2007年军装（女）</li>
+     *              </ul>
+     *              http://ai.qq.com/doc/facemerge.shtml
      */
-    private static ResultBean<ImageBean> ptuFacemerge(File imageFile, int model){
+    private static ResultBean<ImageBean> ptuFacemerge(File imageFile, int model) {
         String baseUrl = urlPrefix + "/ptu/ptu_facemerge";
         Map<String, String> map = new TreeMap<>();
         map.put("app_id", appId);
@@ -353,7 +558,7 @@ public final class RxTencentAiTools {
      * 智能闲聊
      * http://ai.qq.com/doc/nlpchat.shtml
      */
-    public static ResultBean<TextchatBean> nlpTextchat(String question){
+    public static ResultBean<TextchatBean> nlpTextchat(String question) {
         String baseUrl = urlPrefix + "/nlp/nlp_textchat";
         Map<String, String> map = new TreeMap<>();
         map.put("app_id", appId);
@@ -384,9 +589,10 @@ public final class RxTencentAiTools {
     /**
      * 颜龄检测
      * http://ai.qq.com/doc/faceage.shtml
+     *
      * @throws IOException
      */
-    public static ResultBean<ImageBean> ptuFaceage(String appId, String appKey, File imageFile){
+    public static ResultBean<ImageBean> ptuFaceage(String appId, String appKey, File imageFile) {
         String baseUrl = urlPrefix + "/ptu/ptu_faceage";
         Map<String, String> map = new TreeMap<>();
         map.put("app_id", appId);
@@ -398,15 +604,15 @@ public final class RxTencentAiTools {
     }
 
 
-    private static String randomString(int count){
+    private static String randomString(int count) {
         return RandomStringUtils.random(count, "abcdefghijklmnopqrstuvwxyz0123456789");
     }
 
-    private static String currentTime(){
+    private static String currentTime() {
         return System.currentTimeMillis() / 1000 + "";
     }
 
-    private static String file2Base64(File imageFile){
+    private static String file2Base64(File imageFile) {
         try {
             return Base64.encodeBytes(FileUtils.readFileToByteArray(imageFile));
         } catch (IOException e) {
@@ -414,10 +620,10 @@ public final class RxTencentAiTools {
         }
     }
 
-    public static byte[] Base64ToFile(String base64String, File outFile){
+    public static byte[] Base64ToFile(String base64String, File outFile) {
         try {
             byte[] decode = Base64.decode(base64String);
-            if (!outFile.getParentFile().exists()){
+            if (!outFile.getParentFile().exists()) {
                 outFile.getParentFile().mkdirs();
             }
             IOUtils.write(decode, new FileOutputStream(outFile));
@@ -427,9 +633,11 @@ public final class RxTencentAiTools {
         }
     }
 
-    private static <T>ResultBean<T> httpPost(String url, Map<String, String> data, Class<T> tClass){
+    private static <T> ResultBean<T> httpPost(String url, Map<String, String> data, Class<T> tClass) {
         try {
+
             String body = Jsoup.connect(url).method(Connection.Method.POST).data(data).ignoreContentType(true).execute().body();
+            Log.d(Tag, "接收的结果: " + body);
             ResultBean<T> resultBean = gson.fromJson(body, new TypeToken<ResultBean<T>>() {
             }.getType());
 
@@ -442,12 +650,12 @@ public final class RxTencentAiTools {
         }
     }
 
-    public static String sign(Map<String, String> param, String appKey){
+    public static String sign(Map<String, String> param, String appKey) {
         TreeMap<String, String> map = new TreeMap<>();
         map.putAll(param);
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String,String> entry : map.entrySet()){
-            if (StringUtils.isBlank(entry.getValue())){
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            if (StringUtils.isBlank(entry.getValue())) {
                 continue;
             }
             try {
@@ -467,17 +675,17 @@ public final class RxTencentAiTools {
     public static String EncoderByMd5(String str) {
         try {
             //确定计算方法
-            MessageDigest md5= MessageDigest.getInstance("MD5");
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
             //加密后的字符串
             byte[] digest = md5.digest(str.getBytes("utf-8"));
             String hexString = "0123456789ABCDEF";
             StringBuffer sb = new StringBuffer();
-            for (byte b : digest){
+            for (byte b : digest) {
                 sb.append(hexString.charAt(b >> 4 & 0x0f));
                 sb.append(hexString.charAt(b & 0x0f));
             }
             return sb.toString();
-        }catch (Exception e){
+        } catch (Exception e) {
             return "";
         }
     }

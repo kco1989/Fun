@@ -9,6 +9,7 @@ import butterknife.OnClick;
 import com.kco.fun.activity.demo1.SimpleActivity;
 import com.kco.fun.activity.demo2.PhotoActivity;
 import com.kco.fun.activity.demo3.ImageRecognitionActivity;
+import com.kco.fun.activity.demo4.OcrRecognitionActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.start_imageRecognition)
     public void startImageRecognition(View view){
         Intent intent = new Intent(this, ImageRecognitionActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.start_ocrRecognition)
+    public void startOcrRecognition(View view){
+        Intent intent = new Intent(this, OcrRecognitionActivity.class);
         startActivity(intent);
     }
 }
