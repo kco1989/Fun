@@ -41,8 +41,7 @@ public final class AlbumTools {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<String>> emitter) throws Exception {
                 File externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
-                String fileName = split[1].replaceAll("http://.*?/(.*?)/(.*?).html", "$1$2.txt");
-                File file = new File(externalFilesDir, fileName);
+                File file = new File(externalFilesDir, MD5Util.MD5(split[0]) + ".txt");
                 if (!file.exists()){
                     AlbumTools.parseUrls(split[0], file);
                 }
@@ -83,12 +82,9 @@ public final class AlbumTools {
         Observable.create(new ObservableOnSubscribe<File>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<File> emitter) throws Exception {
-                String replace = imageUrl.replace("http://", "");
+                String[] split = imageUrl.split("\\.");
                 File externalFilesDir = context.getExternalFilesDir(picturPath);
-                File file = new File(externalFilesDir, "alburm/" + replace);
-                if (!file.getParentFile().exists()){
-                    file.getParentFile().mkdirs();
-                }
+                File file = new File(externalFilesDir, MD5Util.MD5(imageUrl) + "." +split[split.length - 1]);
                 if (!file.exists()){
                     IOUtils.write(Jsoup.connect(imageUrl)
                             .ignoreContentType(true)
