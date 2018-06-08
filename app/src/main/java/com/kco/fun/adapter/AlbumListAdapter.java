@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.kco.fun.R;
 import com.kco.fun.activity.demo5.AlbumImageActivity;
+import com.kco.fun.activity.demo5.Demo5DataContants;
 import com.kco.fun.tools.AlbumTools;
 
 import org.apache.commons.io.IOUtils;
@@ -24,15 +25,17 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListViewHolder> 
     private static final String TAG = "AlbumListAdapter";
     private Context context;
     private List<String> alburmInfos;
-    public AlbumListAdapter(Context context, String imageType) {
+    private int currentAssertFileIndex = 0;
+    public AlbumListAdapter(Context context) {
         this.context = context;
-        try {
-            alburmInfos = IOUtils.readLines(context.getAssets().open(imageType), "utf8");
-//            Collections.shuffle(alburmInfos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        alburmInfos = Demo5DataContants.readAssertFileData(context, currentAssertFileIndex);
         Log.d(TAG, "FilterListAdapter");
+    }
+
+    public void setAlburmInfos(int index) {
+        this.currentAssertFileIndex =  index % Demo5DataContants.assertFileName.length;
+        alburmInfos = Demo5DataContants.readAssertFileData(context, currentAssertFileIndex);
+        notifyDataSetChanged();
     }
 
     @Override

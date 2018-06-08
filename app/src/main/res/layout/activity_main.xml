@@ -28,33 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Button android:id="@+id/start_alburm_all"
-        android:text="相册(全部)"
+    <Button android:id="@+id/start_alburm"
+        android:text="相册"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Button android:id="@+id/start_alburm_chemo"
-        android:text="相册(车模)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button android:id="@+id/start_alburm_mingxing"
-        android:text="相册(明星)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button android:id="@+id/start_alburm_qingchun"
-        android:text="相册(清纯)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button android:id="@+id/start_alburm_qipao"
-        android:text="相册(旗袍)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button android:id="@+id/start_alburm_xiaohua"
-        android:text="相册(校花)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 </LinearLayout>

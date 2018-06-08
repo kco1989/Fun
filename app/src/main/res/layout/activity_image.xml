@@ -11,5 +11,8 @@
         android:id="@+id/imageRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
+    <Button
+        android:id="@+id/nextImageGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
 </LinearLayout>
