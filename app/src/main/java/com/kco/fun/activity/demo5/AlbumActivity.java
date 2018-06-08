@@ -59,7 +59,7 @@ public class AlbumActivity extends AppCompatActivity {
                 index = Demo5DataContants.alburm_qipao_index;
                 break;
             case R.id.albumXiaohuaBtn:
-                index = Demo5DataContants.alburm_mingxing_index;
+                index = Demo5DataContants.alburm_xiaohua_index;
                 break;
         }
         this.albumListAdapter.setAlburmInfos(index);
