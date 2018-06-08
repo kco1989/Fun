@@ -35,6 +35,9 @@ public class AlbumActivity extends AppCompatActivity {
         albumRV.setAdapter(new AlbumListAdapter(this, imageType));
     }
 
-    public class IMAGE_TYPE {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 }

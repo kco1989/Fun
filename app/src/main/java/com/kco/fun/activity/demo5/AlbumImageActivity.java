@@ -43,5 +43,9 @@ public class AlbumImageActivity extends AppCompatActivity {
         imageRV.setAdapter(albumImageListAdapter);
         AlbumTools.listPicUrl(this, albumImageListAdapter, alburmInfo);
     }
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
 }
