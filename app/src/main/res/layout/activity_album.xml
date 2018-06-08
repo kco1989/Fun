@@ -10,36 +10,48 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="100dp">
-        <Button
-            android:id="@+id/albumAllBtn"
-            android:text="全部"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/albumChemoBtn"
-            android:text="车模"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/albumAllBtn"
+                android:text="全部"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/albumChemoBtn"
+                android:text="车模"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/albumMingxingBtn"
+                android:text="明星"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/albumMingxingBtn"
-            android:text="明星"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/albumQingchunBtn"
-            android:text="清纯"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/albumQiPaoBtn"
-            android:text="旗袍"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/albumXiaohuaBtn"
-            android:text="校花"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/albumQingchunBtn"
+                android:text="清纯"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/albumQiPaoBtn"
+                android:text="旗袍"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/albumXiaohuaBtn"
+                android:text="校花"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/albumRV"

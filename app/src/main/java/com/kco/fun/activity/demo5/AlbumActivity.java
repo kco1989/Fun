@@ -38,7 +38,8 @@ public class AlbumActivity extends AppCompatActivity {
         albumRV.setAdapter(this.albumListAdapter);
     }
 
-    @OnClick
+    @OnClick({R.id.albumAllBtn, R.id.albumChemoBtn, R.id.albumMingxingBtn,
+        R.id.albumQiPaoBtn, R.id.albumQingchunBtn, R.id.albumXiaohuaBtn})
     public void onBtnClick(View view){
         int index = Demo5DataContants.alburm_all_index;
         switch (view.getId()){
