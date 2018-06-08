@@ -15,7 +15,6 @@ import com.kco.fun.tools.AlbumTools;
 
 import org.apache.commons.io.IOUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,11 +24,11 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListViewHolder> 
     private static final String TAG = "AlbumListAdapter";
     private Context context;
     private List<String> alburmInfos;
-    public AlbumListAdapter(Context context) {
+    public AlbumListAdapter(Context context, String imageType) {
         this.context = context;
         try {
-            alburmInfos = IOUtils.readLines(context.getAssets().open("image.txt"), "utf8");
-            Collections.shuffle(alburmInfos);
+            alburmInfos = IOUtils.readLines(context.getAssets().open(imageType), "utf8");
+//            Collections.shuffle(alburmInfos);
         } catch (Exception e) {
             e.printStackTrace();
         }

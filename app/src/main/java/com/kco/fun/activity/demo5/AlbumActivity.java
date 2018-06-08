@@ -1,5 +1,6 @@
 package com.kco.fun.activity.demo5;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import butterknife.ButterKnife;
  */
 
 public class AlbumActivity extends AppCompatActivity {
+    public static final String IMAGE_TYPE = "IMAGE_TYPE";
     @BindView(R.id.albumRV)
     RecyclerView albumRV;
 
@@ -25,9 +27,14 @@ public class AlbumActivity extends AppCompatActivity {
         setContentView(R.layout.activity_album);
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        String imageType = intent.getExtras().getString(IMAGE_TYPE);
         LinearLayoutManager filterListLayoutManager = new LinearLayoutManager(this);
         filterListLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         albumRV.setLayoutManager(filterListLayoutManager);
-        albumRV.setAdapter(new AlbumListAdapter(this));
+        albumRV.setAdapter(new AlbumListAdapter(this, imageType));
+    }
+
+    public class IMAGE_TYPE {
     }
 }
