@@ -3,17 +3,21 @@ package com.kco.fun.tools;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.kco.fun.activity.demo5.AlbumImageActivity;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +75,37 @@ public final class AlbumTools {
         if (StringUtils.equals("下一页", last.text())) {
             parseUrls(last.attr("abs:href"), file);
         }
+    }
+
+    public static void showImage(final Context context, final String picturPath,
+                                 final String imageUrl, final String referer,
+                                 final ImageView imageView){
+        Observable.create(new ObservableOnSubscribe<File>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<File> emitter) throws Exception {
+                String replace = imageUrl.replace("http://", "");
+                File externalFilesDir = context.getExternalFilesDir(picturPath);
+                File file = new File(externalFilesDir, "alburm/" + replace);
+                if (!file.getParentFile().exists()){
+                    file.getParentFile().mkdirs();
+                }
+                if (!file.exists()){
+                    IOUtils.write(Jsoup.connect(imageUrl)
+                            .ignoreContentType(true)
+                            .header("Referer", referer)
+                            .header("Host", "img1.mm131.me")
+                            .header("Pragma", "no-cache")
+                            .execute().bodyAsBytes(), new FileOutputStream(file));
+                }
+                emitter.onNext(file);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<File>() {
+                    @Override
+                    public void accept(File file) throws Exception {
+                        Glide.with(context).load(file).into(imageView);
+                    }
+                });
     }
 }

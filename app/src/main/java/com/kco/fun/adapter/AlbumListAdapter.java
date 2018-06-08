@@ -69,35 +69,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListViewHolder> 
                 AlbumTools.listOnClick(context, alburmInfo);
             }
         });
-
-        Observable.create(new ObservableOnSubscribe<File>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<File> emitter) throws Exception {
-                String imageUrl = split[2];
-                String replace = imageUrl.replace("http://", "");
-                File externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                File file = new File(externalFilesDir, "alburm/" + replace);
-                if (!file.getParentFile().exists()){
-                    file.getParentFile().mkdirs();
-                }
-                if (!file.exists()){
-                    IOUtils.write(Jsoup.connect(imageUrl)
-                            .ignoreContentType(true)
-                            .header("Referer", split[0])
-                            .header("Host", "img1.mm131.me")
-                            .header("Pragma", "no-cache")
-                            .execute().bodyAsBytes(), new FileOutputStream(file));
-                }
-                emitter.onNext(file);
-            }
-        }).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Consumer<File>() {
-                @Override
-                public void accept(File file) throws Exception {
-                    Glide.with(context).load(file).into(holder.albumIV);
-                }
-            });
+        AlbumTools.showImage(context, Environment.DIRECTORY_PICTURES, split[2], split[0], holder.albumIV);
     }
 
     @Override

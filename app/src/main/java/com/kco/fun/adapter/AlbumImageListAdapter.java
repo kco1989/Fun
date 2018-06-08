@@ -16,6 +16,7 @@ import com.kco.fun.activity.demo2.PhotoActivity;
 import com.kco.fun.bean.ImageBean;
 import com.kco.fun.bean.ResultBean;
 import com.kco.fun.enums.PhotoBeautifyEnum;
+import com.kco.fun.tools.AlbumTools;
 import com.kco.fun.tools.RxTencentAiTools;
 import com.kco.fun.tools.TencentAiTools;
 
@@ -56,35 +57,8 @@ public class AlbumImageListAdapter extends RecyclerView.Adapter<ImageListViewHol
     @Override
     public void onBindViewHolder(final ImageListViewHolder holder, final int position) {
         final String url = picUrls.get(position);
-        Observable.create(new ObservableOnSubscribe<File>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<File> emitter) throws Exception {
-                String[] split = url.split("\\s+");
-                String replace = split[1].replace("http://", "");
-                File externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_DCIM);
-                File file = new File(externalFilesDir, "image/" + replace);
-                if (!file.getParentFile().exists()){
-                    file.getParentFile().mkdirs();
-                }
-                if (!file.exists()){
-                    IOUtils.write(Jsoup.connect(split[1])
-                            .ignoreContentType(true)
-                            .header("Referer", split[0])
-                            .header("Host", "img1.mm131.me")
-                            .header("Pragma", "no-cache")
-                            .execute().bodyAsBytes(), new FileOutputStream(file));
-                }
-                emitter.onNext(file);
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<File>() {
-                    @Override
-                    public void accept(File file) throws Exception {
-                        Glide.with(context).load(file).into(holder.imageView);
-                    }
-                });
-
+        String[] split = url.split("\\s+");
+        AlbumTools.showImage(context, Environment.DIRECTORY_DCIM, split[1], split[0], holder.imageView);
     }
 
     @Override
