@@ -28,4 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <Button android:id="@+id/start_alburm"
+        android:text="相册"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

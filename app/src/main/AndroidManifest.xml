@@ -24,6 +24,8 @@
         <activity android:name=".activity.demo2.PhotoActivity"/>
         <activity android:name=".activity.demo3.ImageRecognitionActivity"/>
         <activity android:name=".activity.demo4.OcrRecognitionActivity"/>
+        <activity android:name=".activity.demo5.AlbumActivity"/>
+        <activity android:name=".activity.demo5.AlbumImageActivity"/>
     </application>
 
 </manifest>

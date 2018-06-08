@@ -10,6 +10,7 @@ import com.kco.fun.activity.demo1.SimpleActivity;
 import com.kco.fun.activity.demo2.PhotoActivity;
 import com.kco.fun.activity.demo3.ImageRecognitionActivity;
 import com.kco.fun.activity.demo4.OcrRecognitionActivity;
+import com.kco.fun.activity.demo5.AlbumActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.start_ocrRecognition)
     public void startOcrRecognition(View view){
         Intent intent = new Intent(this, OcrRecognitionActivity.class);
+        startActivity(intent);
+    }
+    @OnClick(R.id.start_alburm)
+    public void start_alburm(View view){
+        Intent intent = new Intent(this, AlbumActivity.class);
         startActivity(intent);
     }
 }
