@@ -25,6 +25,7 @@ import org.jsoup.Jsoup;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -43,9 +44,14 @@ public class AlbumImageListAdapter extends RecyclerView.Adapter<ImageListViewHol
     private static final String TAG = "ImageListAdapter";
     private List<String> picUrls;
     Context context;
-    public AlbumImageListAdapter(Context context, List<String> picUrls) {
+    public AlbumImageListAdapter(Context context) {
         this.context = context;
-        this.picUrls = picUrls;
+        this.picUrls = new ArrayList<>();
+    }
+
+    public void addPiceUrl(String url){
+        this.picUrls.add(url);
+        notifyDataSetChanged();
     }
 
 

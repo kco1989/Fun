@@ -11,17 +11,20 @@ import com.google.gson.reflect.TypeToken;
 import com.kco.fun.R;
 import com.kco.fun.adapter.AlbumImageListAdapter;
 import com.kco.fun.adapter.AlbumListAdapter;
+import com.kco.fun.tools.AlbumTools;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 /**
  * Created by 666666 on 2018/6/8.
  */
 
 public class AlbumImageActivity extends AppCompatActivity {
+    public static final String ALBURM_INFO = "alburmInfo";
     @BindView(R.id.imageRV)
     RecyclerView imageRV;
 
@@ -32,11 +35,13 @@ public class AlbumImageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = this.getIntent();
-        List<String> picUrls = new Gson().fromJson(intent.getExtras().get("picUrls").toString(), new TypeToken<List<String>>() {
-        }.getType());
+        String alburmInfo = intent.getExtras().getString(ALBURM_INFO);
         LinearLayoutManager filterListLayoutManager = new LinearLayoutManager(this);
         filterListLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         imageRV.setLayoutManager(filterListLayoutManager);
-        imageRV.setAdapter(new AlbumImageListAdapter(this, picUrls));
+        AlbumImageListAdapter albumImageListAdapter = new AlbumImageListAdapter(this);
+        imageRV.setAdapter(albumImageListAdapter);
+        AlbumTools.listPicUrl(this, albumImageListAdapter, alburmInfo);
     }
+
 }
