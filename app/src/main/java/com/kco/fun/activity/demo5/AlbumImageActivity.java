@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Observable;
 
 /**
@@ -43,6 +45,12 @@ public class AlbumImageActivity extends AppCompatActivity {
         imageRV.setAdapter(albumImageListAdapter);
         AlbumTools.listPicUrl(this, albumImageListAdapter, alburmInfo);
     }
+
+    @OnClick(R.id.nextImageGroup)
+    public void click(View view){
+
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
